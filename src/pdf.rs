@@ -137,6 +137,7 @@ impl PDF {
                     .spawn()
                     .expect("failed to execute process");
 
+                // UNWRAP SAFETY: The child process is guaranteed to have a stdin as .stdin(Stdio::piped()) was called
                 child.stdin.as_mut().unwrap().write_all(&self.data)?;
 
                 let output = child.wait_with_output()?;
@@ -150,10 +151,9 @@ impl PDF {
         let mut images = Vec::with_capacity(images_results.len());
 
         for image in images_results {
-            if let Err(err) = image {
-                return Err(err);
-            } else {
-                images.push(image.unwrap());
+            match image {
+                Ok(image) => images.push(image),
+                Err(e) => return Err(e),
             }
         }
 

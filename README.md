@@ -45,6 +45,9 @@ fn main() -> Result<(), PDF2ImageError> {
 }
 ```
 
+## Changelog
+- Reviewed all occurences of `.unwrap()`, removed unnecessary ones and added comments detailing why it is safe to call (Thank you @qarmin!).
+
 ## License
 
 `pdf2image` includes code derived from [Edouard Belval](https://github.com/Belval/)'s [`pdf2image`](https://github.com/Belval/pdf2image) Python module, which is MIT licensed. Similarly, `pdf2image` is also licensed under the MIT License.

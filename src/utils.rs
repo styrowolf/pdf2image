@@ -3,7 +3,7 @@ use std::{
     process::{Command, Stdio},
 };
 
-use crate::error::Result;
+use crate::{error::Result, PDF2ImageError};
 
 pub fn get_executable_path(command: &str) -> String {
     if let Some(poppler_path) = std::env::var("PDF2IMAGE_POPPLER_PATH").ok() {
@@ -28,30 +28,32 @@ pub fn extract_pdf_info(pdf: &[u8]) -> Result<(u32, bool)> {
         .stdout(Stdio::piped())
         .spawn()?;
 
+    // UNWRAP SAFETY: The child process is guaranteed to have a stdin as .stdin(Stdio::piped()) was called
     child.stdin.as_mut().unwrap().write_all(pdf)?;
-    let output = child.wait_with_output().unwrap();
+    let output = child.wait_with_output()?;
     let mut splits = output.stdout.split(|&x| x == b'\n');
 
-    let page_count = splits
+    let page_count: u32 = splits
         .clone()
         .find(|line| line.starts_with(b"Pages:"))
         .map(|line| {
-            let line = std::str::from_utf8(line).unwrap();
-            line.split_whitespace().last().unwrap().parse().unwrap()
+            let line = std::str::from_utf8(line)?;
+            let pg_str = line.split_whitespace().last().ok_or(PDF2ImageError::UnableToExtractPageCount)?;
+            pg_str.parse::<u32>().map_err(|_| PDF2ImageError::UnableToExtractPageCount)
         })
-        .unwrap();
+        .ok_or(PDF2ImageError::UnableToExtractPageCount)??;
 
     let encrypted = splits
         .find(|line| line.starts_with(b"Encrypted:"))
         .map(|line| {
-            let line = std::str::from_utf8(line).unwrap();
-            match line.split_whitespace().last().unwrap() {
+            let line = std::str::from_utf8(line)?;
+            Ok(match line.split_whitespace().last().ok_or(PDF2ImageError::UnableToExtractEncryptionStatus)? {
                 "yes" => true,
                 "no" => false,
-                _ => panic!("Unexpected value for Encrypted: {}", line),
-            }
+                _ => return Err(PDF2ImageError::UnableToExtractEncryptionStatus)
+            })
         })
-        .unwrap();
+        .ok_or(PDF2ImageError::UnableToExtractEncryptionStatus)??;
 
     Ok((page_count, encrypted))
 }

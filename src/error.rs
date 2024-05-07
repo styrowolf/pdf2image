@@ -24,4 +24,8 @@ pub enum PDF2ImageError {
     /// An error indicating that the PDF is encrypted and no password was provided.
     #[error("No password given for encrypted PDF")]
     NoPasswordForEncryptedPDF,
+    #[error("unable to extract page count")]
+    UnableToExtractPageCount,
+    #[error("unable to extract encryption status")]
+    UnableToExtractEncryptionStatus,
 }
