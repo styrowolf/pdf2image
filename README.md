@@ -46,7 +46,7 @@ fn main() -> Result<(), PDF2ImageError> {
 ```
 
 ## Changelog
-- Reviewed all occurences of `.unwrap()`, removed unnecessary ones and added comments detailing why it is safe to call (Thank you @qarmin!).
+- Reviewed all occurences of `.unwrap()`, refactored unnecessary ones to return errors and added comments detailing why it is safe to call (Thank you @qarmin!).
 
 ## License
 
