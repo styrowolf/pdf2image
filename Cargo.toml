@@ -2,6 +2,16 @@
 name = "pdf2image"
 version = "0.1.0"
 edition = "2021"
+readme = "README.md"
+license = "MIT"
+description = "A simplified port of Python's pdf2image that wraps pdftoppm and pdftocairo to convert PDFs into images."
+homepage = "https://github.com/styrowolf/pdf2image"
+repository = "https://github.com/styrowolf/pdf2image"
+keywords = ["pdf", "image", "conversion", "poppler", "pdftoppm", "pdftocairo", "pdf2image", "pdf2img"]
+categories = ["multimedia", "multimedia::images", "multimedia::encoding", "visualization"]
+exclude = [
+    "examples/pdfs/*"
+]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
