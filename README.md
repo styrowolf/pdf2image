@@ -31,9 +31,9 @@ Most distros ship with `pdftoppm` and `pdftocairo`. If they are not installed, r
 ## Quick Start
 
 ```rust
-use pdf2image::{PDF2ImgError, RenderOptionsBuilder, PDF};
+use pdf2image::{PDF2ImageError, RenderOptionsBuilder, PDF};
 
-fn main() -> Result<(), PDF2ImgError> {
+fn main() -> Result<(), PDF2ImageError> {
     let pdf = PDF::from_file("examples/pdfs/ropes.pdf").unwrap();
     let pages = pdf.render(
         pdf2image::Pages::Range(1..=8),
@@ -47,4 +47,4 @@ fn main() -> Result<(), PDF2ImgError> {
 
 ## License
 
-`pdf2image` includes code derived from [Edouard Belval](https://github.com/Belval/)'s [https://github.com/Belval/pdf2image] Python module, which is MIT licensed. Similarly, `pdf2image` is also licensed under the MIT License.
+`pdf2image` includes code derived from [Edouard Belval](https://github.com/Belval/)'s [`pdf2image`](https://github.com/Belval/pdf2image) Python module, which is MIT licensed. Similarly, `pdf2image` is also licensed under the MIT License.

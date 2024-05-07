@@ -8,9 +8,9 @@
 //! ## Quick Start
 //! 
 //! ```rust
-//! use pdf2image::{PDF2ImgError, RenderOptionsBuilder, PDF};
+//! use pdf2image::{PDF2ImageError, RenderOptionsBuilder, PDF};
 //! 
-//! fn main() -> Result<(), PDF2ImgError> {
+//! fn main() -> Result<(), PDF2ImageError> {
 //!     let pdf = PDF::from_file("examples/pdfs/ropes.pdf").unwrap();
 //!     let pages = pdf.render(
 //!         pdf2image::Pages::Range(1..=8),
