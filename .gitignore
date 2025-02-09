@@ -11,3 +11,6 @@ target/
 
 pdf2img.md
 time.sh
+
+# Ignore the output of the examples
+examples/out/*
